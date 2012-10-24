@@ -41,7 +41,7 @@ int main (int argc, const char* argv[])
    semId = semget(IPC_PRIVATE, 1, 00600);
    semctl (semId, 0, SETVAL, 1);
    if (!(pid = fork())) {
-      semop(semId,&wait,1); 
+      semop(semId,&wait1,1); 
       for (i=0; i<loop; i++) { 
                // swap the contents of shmPtr[0] and shmPtr[1]
 		temp = shmPtr[0];
@@ -55,7 +55,7 @@ int main (int argc, const char* argv[])
       semctl (semId, 0, IPC_RMID);
       exit(0); 
    } else { 
-      semop(semId,&wait,1);
+      semop(semId,&wait1,1);
       for (i=0; i<loop; i++) { 
                // swap the contents of shmPtr[1] and shmPtr[0] 
 		temp = shmPtr[0];
@@ -73,7 +73,7 @@ int main (int argc, const char* argv[])
       perror ("just can't let go\n"); 
       exit (1); 
    } 
-   if (shmctl (shmId, IPC_RMID, 0) < 0) { 
+   if (shmctl (shmId, 0, IPC_RMID) < 0) { 
       perror ("can't deallocate\n"); 
       exit(1); 
    }
